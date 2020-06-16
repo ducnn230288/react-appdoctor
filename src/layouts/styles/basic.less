@@ -1,0 +1,108 @@
+@import '~assets/styles/variables.less';
+
+.basic-layout {
+  .ant-layout-sider-children {
+    height: calc(100% - 125px);
+    margin-top: 125px;
+  }
+
+  &.fixed-header {
+    > .ant-layout-header {
+      z-index: 3;
+      box-shadow: 0 10px 30px 0 rgba(@primary-color, 0.08);
+    }
+  }
+  > .ant-layout.ant-layout-has-sider {
+    min-height: ~'calc(100vh - 60px)'; // Exclude top
+  }
+  /* Application layout & layout settings */
+  &.full-layout {
+    .navbar-siderbar {
+      width: 230px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 99999 !important;
+      transition: all 0.2s ease;
+
+
+      &.header-sm {
+        width: 60px;
+        @media (max-width: 768px) {
+          width: inherit;
+        }
+      }
+    }
+    // Fixed all elements, classic management interface style, namely fixed head, sidebar, breadcrumbs
+    &.fixed.ant-layout,
+    &.fixed .full-layout.ant-layout {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      .ant-layout-sider > .ant-layout-sider-children {
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      .ant-layout-content.has-footer {
+        margin-bottom: 62px;
+        + .ant-layout-footer {
+          position: fixed;
+          bottom: 0;
+          right: 0;
+          width: calc(100% - 230px);
+        }
+      }
+    }
+    // Head only
+    &:not(.fixed)&.fixed-header {
+      > .ant-layout-header {
+        position: fixed;
+        z-index: 200;
+        left: 0;
+        right: 0;
+      }
+      > .ant-layout {
+        @media (max-width: 768px) {
+          padding-top: 60px;
+          overflow: auto;
+        }
+      }
+      .ant-layout.ant-layout-has-sider > .ant-layout,
+      .ant-layout.ant-layout-has-sider > .ant-layout-content {
+        overflow-x: visible;
+      }
+    }
+    // Only fix breadcrumbs, you must first fix the head to take effect
+    &.fixed-breadcrumbs {
+      & > .ant-layout-header {
+        box-shadow: none;
+        z-index: 2;
+      }
+      & > .ant-layout > .ant-layout-content > .ant-layout {
+        .router-page.ant-layout-content {
+          overflow: auto;
+        }
+        > .ant-layout-header {
+          z-index: 3;
+          box-shadow: 0 10px 30px 0 rgba(@primary-color, 0.08);
+        }
+      }
+    }
+    // Hide bread crumbs
+    &.hided-breadcrumbs .topbar-content {
+      display: none;
+    }
+    &.hided-breadcrumbs {
+      .router-page,
+      .router-page > .ant-layout {
+        min-height: ~'calc(100vh - 62px)'; // Exclude top
+      }
+    }
+    .router-page,
+    .router-page > .ant-layout {
+      min-height: ~'calc(100vh - 110px)'; // Exclude topping and breadcrumbs
+    }
+  }
+}

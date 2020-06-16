@@ -1,0 +1,44 @@
+@import '~assets/styles/variables.less';
+
+.antui-notification {
+  &-success {
+    background: @alert-success-bg-color;
+    .ant-notification-notice-message,
+    .ant-notification-notice-description {
+      color: @alert-success-icon-color;
+    }
+    .ant-notification-notice-icon {
+      color: tint(@alert-success-icon-color);
+    }
+  }
+  &-error {
+    background: @alert-error-bg-color;
+    .ant-notification-notice-message,
+    .ant-notification-notice-description {
+      color: @alert-error-icon-color;
+    }
+    .ant-notification-notice-icon {
+      color: tint(@alert-error-bg-color);
+    }
+  }
+  &-warning {
+    background: @alert-warning-bg-color;
+    .ant-notification-notice-message,
+    .ant-notification-notice-description {
+      color: @alert-warning-icon-color;
+    }
+    .ant-notification-notice-icon {
+      color: tint(@alert-warning-bg-color);
+    }
+  }
+  &-info {
+    background: @alert-info-bg-color;
+    .ant-notification-notice-message,
+    .ant-notification-notice-description {
+      color: @alert-info-icon-color;
+    }
+    .ant-notification-notice-icon {
+      color: tint(@alert-info-bg-color);
+    }
+  }
+}

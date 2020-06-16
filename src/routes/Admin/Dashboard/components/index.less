@@ -1,0 +1,297 @@
+// Page style
+@import '~assets/styles/variables.less';
+.ant-modal-wrap.dashboard {
+  .ant-modal-header { border-bottom: none; }
+  .ant-modal-title {
+    text-align: center;
+    font-size: 24px;
+    margin-top: 20px;
+  }
+  .ant-modal-body > div {
+    background-color: @light;
+    border-radius: 6px;
+    color: @black;
+    padding: 20px;
+  }
+  .ant-modal-footer {
+    border-top: none;
+    padding: 0 24px 24px;
+    .ant-btn:not(.ant-btn-dashed):not(.ant-btn-danger):not(.ant-btn-link) {
+      border-radius: 0;
+      background-color: @black;
+      color: @white;
+      &.ant-btn-primary {
+        border-color: @warning-color;
+        background-color: @warning-color;
+        color: @black;
+      }
+    }
+  }
+
+}
+.dashboard-page {
+  .header-toolbar {
+    background-color: @gray;
+    border-radius: 7px;
+    overflow: hidden;
+    .bg-gray {
+      color: @white;
+      font-size: 22px;
+      text-align: center;
+      max-width: 250px;
+      padding: 10px 0;
+      @media (max-width: 768px) {
+        font-size: 17px;
+      }
+    }
+    .bg-white {
+      background-color: @white;
+      padding: 0 3%;
+      .ant-col {
+        text-align: center;
+        width: 33.3333%;
+        padding: 15px 3%;
+        > small {
+          font-size: 18px;
+          color: @black;
+        }
+        > span {
+          font-size: 32px;
+          @media (max-width: 768px) {
+            font-size: 27px;
+          }
+          > small {
+            font-size: 22px;
+            @media (max-width: 768px) {
+              font-size: 17px;
+            }
+          }
+        }
+        &.primary {
+          > span {
+            color: @primary-color;
+          }
+          .ant-progress-bg {
+            background-color: @primary-color;
+          }
+        }
+        &.yellow {
+          > span {
+            color: @warning-color;
+          }
+          .ant-progress-bg {
+            background-color: @warning-color;
+          }
+        }
+        &.success {
+          > span {
+            color: @success-color;
+          }
+          .ant-progress-bg {
+            background-color: @success-color;
+          }
+        }
+      }
+    }
+  }
+  .toolbar-bottom {
+    background-color: @light-gray;
+    color: @white;
+    padding: 10px;
+    text-align: center;
+    margin-top: 15px;
+  }
+  .group-button {
+    margin-top: 25px;
+    .ant-btn {
+      border-radius: 0;
+      font-size: 18px;
+      margin-bottom: 10px;
+      &:not(.ant-btn-primary):not(.ant-btn-dashed):not(.ant-btn-danger):not(.ant-btn-link) {
+        border-color: transparent;
+        background-color: @light;
+        color: @gray;
+
+        &:hover {
+          background-color: @warning-color;
+          color: @black;
+        }
+      }
+      &.ant-btn-primary {
+        background-color: @warning-color;
+        border-color: @warning-color;
+        color: @black;
+      }
+    }
+  }
+  .list-status {
+    margin-top: 15px;
+    width: 100%;
+    float: left;
+  }
+  .list-line {
+    position: relative;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 25px;
+    @media (max-width: 768px) {
+      display: block;
+    }
+    &::before {
+      content: "";
+      width: 100%;
+      height: 1px;
+      background-color: @light-gray;
+      position: absolute;
+      top: 0;
+      left: 0;
+      @media (max-width: 768px) {
+        content: none;
+      }
+    }
+    > li {
+      position: relative;
+      padding-top: 15px;
+      margin-bottom: 20px;
+      @media (max-width: 768px) {
+        float: left;
+        width: 33.3333%;
+        text-align: center;
+        &::before {
+          content: "";
+          width: 100%;
+          height: 0.5px;
+          background-color: @light-gray;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+      &::after {
+        content: "";
+        width: 20px;
+        height: 20px;
+        background-color: @gray;
+        position: absolute;
+        top: -10px;
+        left: calc(50% - 10px);
+        border-radius: 50%;
+
+      }
+      &.active::after {
+        background-color: @success-color;
+      }
+      &.success::after {
+        background-color: #0dd92e;
+      }
+    }
+  }
+  .list-issue {
+
+  }
+  .ant-card {
+    background-color: @white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    .ant-card-head-title {
+      flex: inherit;
+      position: relative;
+      padding: 20px 0;
+      font-weight: bold;
+      &::before {
+        content: "";
+        background-color: @warning-color;
+        height: 3px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+    }
+    .ant-btn:not(.ant-btn-primary):not(.ant-btn-dashed):not(.ant-btn-danger):not(.ant-btn-link) {
+      background-color: @gray;
+      color: @white;
+      height: 28px;
+      padding: 3.3px 7px;
+      border-radius: 0;
+    }
+    .ant-btn-link {
+      display: flex;
+      align-items: center;
+      > span {
+        margin-left: 5px;
+        > span { display: flex; }
+      }
+    }
+    .ant-list-split {
+      li:nth-of-type(odd) {
+        background-color: rgba(@success-color,.05);
+      }
+      li:nth-of-type(even) {
+        background-color: rgba(@gray,.05);
+      }
+      .ant-list-item {
+        position: relative;
+        border: solid 1px rgba(@light-gray, 0.5);
+        margin-bottom: 7px;
+        padding: 20px;
+        border-radius: 5px;
+        .ant-list-item-meta-title {
+          margin-bottom: 0;
+          display: flex;
+          align-items: center;
+          padding-right: 8px;
+          .ant-tag {
+            font-weight: normal;
+            border-radius: 0;
+          }
+        }
+      }
+      .date {
+        float: left;
+        margin-right: 10px;
+        color: @light-gray;
+      }
+      .hours {
+        float: left;
+        border-left: solid 0.5px rgba(@light-gray, 0.5);
+        width: 40px;
+        text-align: right;
+        >small {
+          position: absolute;
+          top: 3px;
+          right: 8px;
+          &::after {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background-color: @light-gray;
+            display: inline-block;
+            border-radius: 50%;
+            margin-left: 3px;
+          }
+          &.success::after {
+            background-color: #0dd92e;
+          }
+        }
+      }
+
+    }
+    table {
+      width: 100%;
+      text-align: center;
+      tr > td {
+        padding: 10px 0;
+        color: @light-gray;
+        &:first-child {
+          text-align: left;
+          color: @black;
+        }
+        &.waiting { color: @success-color; }
+      }
+    }
+    img { width: 100%; }
+    strong { font-size: 18px; }
+  }
+}

@@ -1,0 +1,116 @@
+import modelEnhance from '@/utils/modelEnhance';
+import PageHelper from '@/utils/pageHelper';
+
+import {
+  getList_{{upperCase name }},
+  save_{{upperCase name }},
+  update_{{upperCase name }},
+  delete_{{upperCase name }},
+{{#if isGroup}}
+  get_{{upperCase nameGroup}},
+  change_{{upperCase nameGroup}},
+  delete_{{upperCase nameGroup}},
+{{/if}}
+} from "../service"
+
+/**
+* true when the page is first loaded
+* Can use this value to prevent switching pages when
+* Initialize data multiple times
+*/
+let url = true;
+export default modelEnhance({
+  namespace: '{{lowerCase name}}',
+
+  state: {
+    pageData: PageHelper.create(),
+  {{#if isGroup}}
+    {{lowerCase nameGroup}}s: [],
+    {{lowerCase name}}s: [],
+  {{/if}}
+  },
+
+  subscriptions: {
+    setup({ dispatch, history }) {
+      history.listen(({ pathname, search }) => {
+        if (pathname === '/{{lowerCase name }}' && !!search && url) {
+          url = false
+          setTimeout(() => url = true, 500);
+          const payload = PageHelper.URLToArray(search);
+          dispatch({ type: 'init', payload });
+        }
+      });
+    }
+  },
+
+  effects: {
+    // Enter page load
+    *init({ payload }, { put, select }) {
+      const { pageData } = yield select(state => state.{{lowerCase name }});
+      yield put({
+        type: 'getPageInfo',
+        payload: {
+          pageData: pageData.setPage(payload)
+        }
+      });
+      {{#if isGroup}}
+      yield put({ type: 'get{{sentenceCase nameGroup}}' });
+      {{/if}}
+    },
+    // Get paging data
+    *getPageInfo({ payload }, { call }) {
+      const { pageData } = payload;
+      const data = yield call (getList_{{upperCase name }}, pageData)
+      pageData.setPage(data);
+    },
+    // Save after querying paging
+    *save({ payload }, { put, select, call }) {
+      const { values, success } = payload;
+      const { pageData } = yield select(state => state.{{lowerCase name }});
+
+      if (values.id) yield call(update_{{upperCase name }}, values);
+      else yield call(save_{{upperCase name }}, values);
+
+      yield put({ type: 'getPageInfo', payload: { pageData } });
+      {{#if isGroup}}
+      yield put({ type: 'get{{sentenceCase nameGroup}}' });
+      {{/if}}
+      success();
+    },
+    // Delete after querying paging
+    *remove({ payload }, { put, select, call }) {
+      const { records, success } = payload;
+      const { pageData } = yield select(state => state.{{lowerCase name }});
+      const data = records.map(item => item.id)
+      yield call(delete_{{upperCase name }}, data);
+      yield put({ type: 'getPageInfo', payload: { pageData } });
+      {{#if isGroup}}
+      yield put({ type: 'get{{sentenceCase nameGroup}}' });
+      {{/if}}
+      success();
+    },
+    {{#if isGroup}}
+    *get{{sentenceCase nameGroup}}({ payload }, { call, put }) {
+      const data = yield call(get_{{upperCase nameGroup}})
+      yield put({ type: 'success', payload: data });
+    },
+    *change{{sentenceCase nameGroup}}({ payload }, { call, put }) {
+      const {{lowerCase nameGroup}}s = yield call(change_{{upperCase nameGroup}}, payload)
+      yield put({ type: 'success', payload: { {{lowerCase nameGroup}}s } });
+    },
+    *remove{{sentenceCase nameGroup}}({ payload }, { call, put }) {
+      yield call(delete_{{upperCase nameGroup}}, payload);
+      yield put({ type: 'get{{sentenceCase nameGroup}}' });
+    }
+    {{/if}}
+  },
+
+  reducers: {
+    success(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+  }
+});

@@ -1,0 +1,57 @@
+import axios from 'axios';
+import PageHelper from '@/utils/pageHelper';
+import { normal } from 'components/Notification';
+
+export async function getList_{{upperCase name}}(payload) {
+  const { data } = await axios.get('{{ api }}', {params: PageHelper.requestFormat(payload)});
+  return PageHelper.responseFormat(data);
+}
+
+export async function save_{{upperCase name}}(payload) {
+  const { data } = await axios.post('{{ api }}', payload);
+  if (data.message) normal.success(data.message);
+  return data;
+}
+
+export async function update_{{upperCase name}}(payload) {
+  const { data } = await axios.put('{{ api }}/' + payload.id, payload);
+  if (data.message) normal.success(data.message);
+  return data;
+}
+
+export async function delete_{{upperCase name}}(payload) {
+  for (let index = 0; index < payload.length; index++) {
+    const id = payload[index];
+    const {data} = await axios.delete('{{ api }}/' + id);
+    if (data.message) normal.success(data.message);
+  }
+  return null;
+}
+{{#if isGroup}}
+export async function get_{{upperCase nameGroup}}() {
+  const { data } = await axios.get('{{ apiGroup }}');
+  return data;
+}
+
+export async function change_{{upperCase nameGroup}}(payload) {
+  const dataUpdate = [];
+  for (let index = 0; index < payload.length; index++) {
+    const item = payload[index];
+    if (item.id > 0) {
+      const {data} = await axios.put('{{ apiGroup }}/' + item.id, item);
+      if (data.message) normal.success(data.message);
+      dataUpdate[index] = item;
+    } else  {
+      const {data} = await axios.post('{{ apiGroup }}', item);
+      if (data.message) normal.success(data.message);
+      dataUpdate[index] = data.data;
+    }
+  }
+  return dataUpdate;
+}
+
+export async function delete_{{upperCase nameGroup}}(id) {
+  const { data } = await axios.delete('{{ apiGroup }}/' + id);
+  if (data.message) normal.success(data.message);
+}
+{{/if}}

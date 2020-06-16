@@ -1,0 +1,56 @@
+@import '~assets/styles/variables.less';
+
+.login-page {
+  background: url('~assets/images/bg.jpg');
+  .login-form {
+    width: 430px;
+    margin: 0 auto;
+
+    @media (max-width: @mobile-media) {
+      width: 100%;
+      padding: 0 5%;
+    }
+    .user-img {
+      margin: 20% 0 8% 0;
+      font-size: 28px;
+      text-align: center;
+      img {
+        width: 150px;
+      }
+    }
+
+    .ant-input-affix-wrapper,
+    .ant-input,
+    .ant-select-selector,
+    .ant-input-group-addon
+     {
+      border: none;
+      background-color: @light;
+    }
+
+    .ant-input[type='password']  {
+      height: 38px;
+    }
+
+    h4.ant-typography {
+      margin-bottom: 13%;
+    }
+    .login-form-forgot {
+      position: relative;
+      top: 8px;
+    }
+
+    a {
+      color: @primary-color;
+      &:hover {
+        color: tint(@primary-color);
+      }
+      &:active {
+        color: @primary-color;
+      }
+    }
+  }
+  .ant-spin-nested-loading > div > .ant-spin {
+    max-height: none;
+  }
+}

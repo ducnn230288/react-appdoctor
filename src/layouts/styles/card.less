@@ -1,0 +1,38 @@
+.card-layout {
+  .ant-menu {
+    font-size: 16px;
+  }
+  &.full-layout .router-page, 
+  &.full-layout .router-page > .ant-layout {
+    min-height: ~'calc(100vh - 48px)';
+    > .ant-layout-content {
+      overflow: auto;
+    }
+  }
+
+  /* Application layout & layout settings */
+  &.full-layout {
+    // Fixed all elements, classic management interface style, namely fixed head, sidebar, breadcrumbs
+    &.fixed.ant-layout,
+    &.fixed .full-layout.ant-layout {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    // Head only
+    &:not(.fixed)&.fixed-header {
+      > .ant-layout-header {
+        position: fixed;
+        z-index: 200;
+        left: 0;
+        right: 0;
+      }
+      > .ant-layout-content {
+        padding-top: 46px;
+        overflow: auto;
+      }
+    }
+  }
+}

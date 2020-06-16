@@ -1,0 +1,29 @@
+@import '~assets/styles/variables.less';
+
+.page403 {
+  background: @white;
+  .ant-layout-content {
+    overflow: hidden !important;
+  }
+  .error-block {
+    margin: 5%
+  }
+  .center-block {
+    margin: 0 10%;
+    @media (max-width: @mobile-media) {
+      text-align: center;
+    }
+    .error-title {
+      font-size: 60px;
+      font-weight: 800;
+      color: @dark-gray;
+      margin-bottom: 10px;
+    }
+    .error-subtitle {
+      font-weight: 400;
+      font-size: 32px;
+      color: @dark-gray;
+      margin-bottom: 10%;
+    }
+  }
+}

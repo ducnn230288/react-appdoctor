@@ -1,0 +1,204 @@
+import React from 'react';
+import { connect } from 'dva';
+import { Layout, Button } from 'antd';
+
+import BaseComponent from 'components/BaseComponent';
+import Toolbar from 'components/Toolbar';
+{{#if isSearch}}
+import SearchBar from 'components/SearchBar';
+{{/if}}
+import DataTable from 'components/DataTable';
+import { ModalForm,{{#if isGroup}} ModalDragList,{{/if}} } from 'components/Modal';
+import { createColumns,{{#if isGroup}} createFormDrag, {{/if}} } from './columns';
+import './index.less';
+
+const { Content, Header, Footer } = Layout;
+const { Pagination } = DataTable;
+
+@connect(({ {{lowerCase name}}, loading }) => ({
+  {{lowerCase name}},
+  loading: loading.models.{{lowerCase name}}
+}))
+class {{ properCase name}} extends BaseComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      record: null,
+      visible: false,
+      visibleDrag: false,
+      rows: []
+    }
+  }
+
+  handleDelete = records => {
+    const { rows } = this.state;
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: '{{lowerCase name}}/remove',
+      payload: {
+        records,
+        success: () => {
+          // If the operation is successful, exclude the deleted row in the selected row
+          this.setState({
+            rows: rows.filter(
+              item => !records.some(jItem => jItem.rowKey === item.rowKey)
+            )
+          });
+        }
+      }
+    });
+  };
+
+  render() {
+    const { {{lowerCase name}}, loading, dispatch, history, location } = this.props;
+    const { pageData,{{#if isGroup}} {{lowerCase nameGroup}}s, {{lowerCase name }}s, {{/if}} } = {{lowerCase name}};
+    const columns = createColumns(this);
+    const { rows, record, visible,{{#if isGroup}} visibleDrag,{{/if}} } = this.state;
+
+    if (Object.keys(pageData.sorts).length || Object.keys(pageData.filters).length) {
+      columns.map(item => {
+        if (pageData.sorts[item.name] || pageData.filters[item.name]) {
+          item.tableItem = {
+            ...item.tableItem,
+            sortOrder: pageData.sorts[item.name],
+            filteredValue: pageData.filters[item.name]
+          }
+        }
+        return item;
+      })
+    }
+    {{#if isSearch}}
+    const searchBarProps = {
+      columns,
+      onSearch: values => history.replace(location.pathname + pageData.toParams({...pageData, filters: {...values}}))
+    };
+    {{/if}}
+    const dataTableProps = {
+      loading,
+      columns,
+      rowKey: 'id',
+      dataItems: pageData,
+      selectType: 'checkbox',
+      showNum: false,
+      isScroll: true,
+      selectedRowKeys: rows.map(item => item.id),
+      onChange: (page) => history.replace(location.pathname +pageData.toParams(page)),
+      onSelect: (keys, rows) => this.setState({ rows })
+    };
+    const modalFormProps = {
+      loading,
+      record,
+      visible,
+      columns,
+      modalOpts: {
+        width: 700
+      },
+      onCancel: () => {
+        this.setState({
+          record: null,
+          visible: false
+        });
+      },
+      // Add and modify will enter this method,
+      // can use the primary key or whether there is a record to distinguish the status
+      onSubmit: values => {
+        values = !record ? values : {...values, id: record.id}
+        dispatch({
+          type: '{{lowerCase name}}/save',
+          payload: {
+            values,
+            success: () => {
+              this.setState({
+                record: null,
+                visible: false
+              });
+            }
+          }
+        });
+      }
+    };
+    {{#if isGroup}}
+    const modalDrapProps = {
+      loading,
+      columns: createFormDrag({{lowerCase name}}s.map(item => { return { code: item.id, codeName: item.title } })),
+      data: {{lowerCase nameGroup}}s,
+      visible: visibleDrag,
+      title: "{{sentenceCase nameGroup}}",
+      modalOpts: {
+        width: 700
+      },
+      onSubmit: (data) => {
+        dispatch({ type: "{{lowerCase name}}/@change", payload: { {{lowerCase nameGroup}}s: data }})
+      },
+      onDrag: (data) => {
+        dispatch({ type: "{{lowerCase name}}/@change", payload: { {{lowerCase nameGroup}}s: data }})
+      },
+      onCancel: () => {
+        this.setState({ visibleDrag: false });
+      },
+      onSave: () => {
+        dispatch({ type: "{{lowerCase name}}/change{{sentenceCase nameGroup}}", payload: {{lowerCase nameGroup}}s })
+        this.setState({ visibleDrag: false });
+      },
+      onDelete: (index) => {
+        if ({{lowerCase nameGroup}}s[index].id > 0) {
+          dispatch({ type: "{{lowerCase name}}/remove{{sentenceCase nameGroup}}", payload: {{lowerCase nameGroup}}s[index].id })
+        } else {
+          dispatch({ type: "{{lowerCase name}}/@change", payload: {{lowerCase nameGroup}}s.splice(index, 1) })
+        }
+      }
+    };
+    {{/if}}
+    return (
+      <Layout className="full-layout {{lowerCase name}}-page">
+        <Header>
+          <Toolbar
+            appendLeft={
+              <Button.Group>
+                <Button type="primary" icon={<i className="las la-plus" />} onClick={this.onAdd}>
+                  New
+                </Button>
+                {{#if isGroup}}
+                <Button
+                  type="primary"
+                  icon={<i className="las la-bars" />} onClick={() => this.setState({ visibleDrag: true })}
+                >
+                  {{sentenceCase nameGroup}}
+                </Button>
+                {{/if}}
+                <Button
+                  type="primary"
+                  disabled={!rows.length}
+                  onClick={e => this.onDelete(rows)}
+                  icon={<i className="las la-trash-alt" />}
+                >
+                  Delete
+                </Button>
+              </Button.Group>
+            }
+            {{#if isSearch}}
+            pullDown={<SearchBar type="grid" {...searchBarProps} />}
+            {{/if}}
+          >
+            {{#if isSearch}}
+            <SearchBar group="abc" {...searchBarProps} />
+            {{/if}}
+          </Toolbar>
+        </Header>
+        <Content className="has-footer">
+          <DataTable {...dataTableProps} />
+        </Content>
+        <Footer>
+          <Pagination {...dataTableProps} />
+        </Footer>
+        <ModalForm {...modalFormProps} />
+        {{#if isGroup}}
+        <ModalDragList {...modalDrapProps} />
+        {{/if}}
+      </Layout>
+    );
+  }
+}
+
+export default {{ properCase name }};

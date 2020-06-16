@@ -1,0 +1,73 @@
+@import '~assets/styles/variables.less';
+
+.ant-layout.screen-lock-page {
+  position: fixed !important;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding-top: 70px;
+  background: radial-gradient(ellipse at center, @primary-10 0%, @black 100%);
+  @media (max-width: @mobile-media) {
+    padding-top: 6vh;
+  }
+  .container {
+    width: 80%;
+    margin: auto;
+    @media (max-width: @mobile-media) {
+      width: 97%;
+    }
+    .pattern-logo {
+      font-size: 22px;
+      color: @light;
+      img {
+        width: 45px;
+        margin-right: 18px;
+      }
+      b {
+        color: @light-gray;
+      }
+      > * {
+        vertical-align: middle;
+      }
+    }
+    .patter-container {
+      text-align: center;
+      .patter-title {
+        color: @white;
+        margin-bottom: 20px;
+        letter-spacing: 0.3px;
+        font-size: 20px;
+      }
+      .patt-holder {
+        background: rgba(@white, 0.1);
+        border-radius: 14px;
+        margin: 0 auto 40px;
+      }
+      > p {
+        color: @light;
+        width: 310px;
+        margin: 13px auto;
+      }
+    }
+    .patter-tip {
+      text-align: center;
+    }
+  }
+  .antui-clock {
+    bottom: 50px;
+    color: @white;
+    padding: 0;
+    position: absolute;
+    right: 50px;
+    width: auto;
+    @media (max-width: @mobile-media) {
+      display: none;
+    }
+  }
+}
+.pattern-tip-modal {
+  margin: 50px auto;
+  text-align: center;
+}

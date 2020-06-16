@@ -1,0 +1,103 @@
+@import '~assets/styles/variables.less';
+
+@datatable-prefix-cls: antui-datatable;
+
+// DataTable styles
+// -----------------------------
+.@{datatable-prefix-cls} {
+  &.table-row-alternate-color {
+    table tbody {
+      background: @white;
+      width: 100%;
+      tr:nth-child(odd) {
+        background: tint(@light);
+      }
+      tr:nth-child(even) {
+        background: @white;
+      }
+      tr.ant-table-row:hover > td {
+        background: @light;
+      }
+    }
+  }
+
+  .ant-table-thead > tr > th {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .ant-table-tbody {
+    > tr > td {
+      padding: 3px 8px;
+      height: 53px;
+      border-bottom-color: tint(@light);
+    }
+    > tr.ant-table-row-selected td.ant-table-cell {
+      background: @light;
+    }
+    > tr {
+      &.disabled > td {
+        color: rgba(@black, 0.25);
+        background-color: @light;
+        cursor: not-allowed;
+      }
+    }
+  }
+  .ant-table-footer {
+    padding: 8px;
+  }
+  .table-row-button {
+    button,
+    a {
+      border: none;
+      background-color: transparent;
+      height: 20px;
+      color: @primary-color;
+      padding: 0 1px !important; // Added when button is loading
+      outline: none;
+      vertical-align: middle;
+      overflow: hidden;
+      > i {
+        font-size: 20px;
+        vertical-align: top;
+        margin-left: 0 !important; // Added when button is loading
+        &.anticon-spin + .anticon {
+          // Added when button is loading
+          display: none;
+        }
+      }
+      &:hover,
+      &:focus {
+        background-color: transparent;
+        color: tint(@primary-color, 40%);
+      }
+      &:active,
+      &.active {
+        background-color: transparent;
+      }
+
+      &.disabled,
+      &[disabled],
+      fieldset[disabled] & {
+        &,
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+          background-color: transparent;
+          color: @light;
+        }
+      }
+    }
+  }
+  .editable-form-item {
+    margin-bottom: 0;
+    position: relative;
+    left: -12px;
+  }
+  .hide-column {
+    width: 0 !important;
+    padding: 0 !important;
+  }
+}

@@ -1,0 +1,79 @@
+// Page style
+@import '~assets/styles/variables.less';
+.purchase-page {
+  padding: 0 10%;
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+
+  .ant-card {
+    background-color: @white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    .ant-card-head-title {
+      flex: inherit;
+      position: relative;
+      padding: 20px 0;
+      font-weight: bold;
+      &::before {
+        content: "";
+        background-color: @warning-color;
+        height: 3px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+    }
+  }
+  .ant-tabs{
+    &-tab.ant-tabs-tab-active {
+      color: @black;
+    }
+    &-ink-bar{
+      background: @warning-color;
+    }
+  }
+  img {
+    max-width: 100%;
+  }
+  table {
+    width: 100%;
+    margin-top: 10px;
+    tr > td {
+      text-align: center;
+      padding: 20px 0;
+      font-size: 26px;
+      > small {
+        color: @black;
+        text-decoration: line-through;
+      }
+      .red {
+        color: @highlight-color;
+      }
+      .ticket {
+        background-image: url('~assets/images/bg.png');
+        width: 239px;
+        height: 104px;
+        display: inline-block;
+        font-size: 24px;
+        color: @black;
+        padding-top: 15px;
+        text-align: center;
+        small {
+          font-size: 14px;
+          background-color: @warning-color;
+          padding: 2px 5px;
+        }
+      }
+      .ant-btn:not(.ant-btn-primary):not(.ant-btn-dashed):not(.ant-btn-danger):not(.ant-btn-link) {
+        background-color: @black;
+        color: @white;
+        border-radius: 0;
+        font-size: 16px;
+        height: 45px;
+        width: 146px;
+      }
+    }
+  }
+}
